@@ -14,10 +14,22 @@ class NotificationController {
     const notifications = await Notification.find({
       user: provider.id,
     })
-      .sort('createdAt')
+      .sort({ createdAt: 'desc' })
       .limit(20);
 
     return res.json(notifications);
+  }
+
+  async update(req, res) {
+    // const Notification = await Notification.findById(req.params.id);
+
+    const notification = await Notification.findByIdAndUpdate(
+      req.params.id,
+      { read: true },
+      { new: true }
+    );
+
+    return res.json(notification);
   }
 }
 
